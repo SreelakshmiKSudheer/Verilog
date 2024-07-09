@@ -1,0 +1,58 @@
+//design
+module AS(A, B, M, C, S, Cout);
+  input [7:0] A, B;
+  input M, C;
+  output [7:0] S;
+  output Cout;
+  wire [8:0] result;
+  
+  assign result = (M == 0) ? (A + B + C) : (A - B - C);
+  assign S = result[7:0];
+  assign Cout = result[8];
+endmodule
+
+
+// design
+module AS(A, B, M, C, S, Cout);
+  input [7:0] A, B;
+  input M, C;
+  output reg [7:0] S;
+  output reg Cout;
+  reg [8:0] result;
+  
+  always @(A,B,M,C)
+    begin
+      if(M == 0)
+        begin
+          assign result = A + B + C;
+        end
+      else if(M == 1)
+        begin
+          assign result = A - B - C;
+        end
+    
+  	assign S = result[7:0];
+ 	assign Cout = result[8];
+    end
+endmodule
+
+
+// test bench
+module TB;
+  reg [7:0] a,b;
+  reg m,c;
+  wire [7:0] s;
+  wire cout;
+  
+  AS uut(a,b,m,c,s,cout);
+  
+  initial begin
+    #0 a = 8'b00111010; b = 8'b00000101; m = 1'b0; c = 1'b0;
+    #5 a = 8'b00000110; b = 8'b00000101; m = 1'b1; c = 1'b0;
+  end
+  
+  initial begin
+    $monitor($time," a = %b b = %b m = %b c = %b s = %b cout = %b",a,b,m,c,s,cout);
+  end
+endmodule
+
