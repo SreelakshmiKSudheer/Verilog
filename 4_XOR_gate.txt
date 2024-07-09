@@ -1,0 +1,44 @@
+// design
+module xorGate(A,B,C);
+  input A,B;
+  output C;
+  assign C = A ^ B;
+endmodule
+
+// design
+module xorGate(A,B,C);
+  input A,B;
+  output C;
+  xor(C,A,B);
+endmodule
+
+// design
+
+module xorGate(A,B,C);
+  input A,B;
+  output reg C;
+  
+  always @(*)
+    begin
+      C = A ^ B;
+    end
+endmodule
+
+// test bench
+module TB;
+  reg a,b;
+  wire c;
+  
+  xorGate uut(a,b,c);
+  
+  initial begin
+    a = 1'b0; b = 1'b0;
+    #100 a = 1'b0; b = 1'b1;
+    #100 a = 1'b1; b = 1'b0;
+    #100 a = 1'b1; b = 1'b1;
+  end
+  
+  initial begin 
+    $monitor($time," a = %b b = %b c = %b",a,b,c);
+  end
+endmodule
