@@ -1,0 +1,42 @@
+// design
+
+module BCD_Adder(A,B,C,S,Cout);
+  input  [3:0] A,B;
+  input C;
+  output reg [3:0] S;
+  output reg Cout;
+  reg [4:0] result;
+  
+  always @(A,B)
+    begin
+      result = A + B + C;
+      if(result > 9)
+        begin
+          result = result + 6;
+        end
+      S = result [3:0];
+      Cout = result [4];
+    end
+endmodule
+
+
+// test bench
+module TB;
+  reg [3:0] a,b;
+  reg c;
+  wire [3:0] s;
+  wire cout;
+  
+  BCD_Adder uut(a,b,c,s,cout);
+  
+  initial begin
+    #0 a = 4'b0110; b = 4'b0010; c = 1'b1;
+    #5 a = 4'b1110; b = 4'b0011; c = 1'b0;
+    #5 a = 4'b1000; b = 4'b0101; c = 1'b0;
+    #5 a = 4'b0010; b = 4'b0100; c = 1'b1;
+    #5 a = 4'b1011; b = 4'b0011; c = 1'b1;
+  end
+  initial begin
+    $monitor($time, " a = %b b = %b cin = %b s = %b cout = %b",a,b,c,s,cout);
+  end
+endmodule
