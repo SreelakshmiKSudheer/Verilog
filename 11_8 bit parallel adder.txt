@@ -1,0 +1,39 @@
+module adder(A,B,C,S,Cout);
+  input [7:0] A,B;
+  input C;
+  output [7:0] S;
+  output Cout;
+  wire [8:0] result;
+  
+  assign result = A + B + C;
+  assign S = result[7:0];
+  assign Cout = result[8];
+  
+endmodule
+  
+
+
+
+module TB;
+  reg [7:0] a,b;
+  reg c;
+  wire [7:0] s;
+  wire cout;
+  //wire [8:0] r;
+  
+  adder uut(a,b,c,s,cout);
+  
+  initial begin
+    //dumpfile("dump.vcd");
+    //dumpvars(1,TB);
+    a = 8'b00111010; b = 8'b00000101; c = 1'b0;
+    #5 a = 8'b10100111; b = 8'b01100111; c = 1'b1;
+  	//#5
+    //$finish();
+  end
+  
+  initial begin
+    $monitor($time," a = %b b = %b cin = %b s = %b cout = %b",a,b,c,s,cout);
+  end
+endmodule
+    
