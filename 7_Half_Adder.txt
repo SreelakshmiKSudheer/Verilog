@@ -1,0 +1,28 @@
+//design
+module HA(A,B,S,C);
+  input A,B;
+  output S,C;
+  xor(S,A,B);
+  and(C,A,B);
+endmodule
+
+
+
+// test bench
+module TB;
+  reg a,b;
+  wire s,c;
+  
+  HA uut(a,b,s,c);
+  
+  initial begin
+    a = 1'b0; b = 1'b0;
+    #100 a = 1'b0; b = 1'b1;
+    #100 a = 1'b1; b = 1'b0;
+    #100 a = 1'b1; b = 1'b1;
+  end
+  
+  initial begin
+    $monitor($time," a = %b b = %b s = %b c = %b",a,b,s,c);
+  end
+endmodule
