@@ -1,0 +1,46 @@
+// design
+
+module notGate(A,Y);
+  input A;
+  output Y;
+  assign Y = ~A;
+endmodule
+
+// design
+
+module notGate(A,Y);
+  input A;
+  output Y;
+  not(Y,A);
+endmodule
+
+// design
+
+module notGate(A,Y);
+  input A;
+  output reg Y;
+  
+  always @(*)
+    begin
+    	Y = ~A;
+  	end
+endmodule
+
+// test bench
+module orTB;
+  reg a;
+  wire y;
+  
+  notGate uut(a,y);
+  
+  initial begin
+    a = 1'b0;
+    #100 a = 1'b1;
+  end
+  
+  initial begin
+    $monitor($time," a = %b y = %b",a,y);
+  end
+endmodule
+
+
