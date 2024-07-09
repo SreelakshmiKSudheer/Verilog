@@ -1,0 +1,30 @@
+// design
+
+module b_BCD(A,B);
+  input  [3:0] A;
+  output reg [4:0] B;
+  
+  always @(A)
+    begin
+      B = A + 3;
+    end
+endmodule
+
+// test bench
+module TB;
+  reg [3:0] a;
+  wire [4:0] b;
+  
+  b_BCD uut(a,b);
+  
+  initial begin
+    #0 a = 4'b0110;
+    #5 a = 4'b1110;
+    #5 a = 4'b1000;
+    #5 a = 4'b0010;
+    #5 a = 4'b1011;
+  end
+  initial begin
+    $monitor($time, " a = %b b = %b",a,b);
+  end
+endmodule
