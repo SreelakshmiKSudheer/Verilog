@@ -1,0 +1,47 @@
+//design
+// Half subtractor module
+module HS(A, B, D, Bo);
+  input A, B;
+  output D, Bo;
+  
+  xor (D, A, B);
+  and (Bo, ~A, B);
+endmodule
+
+
+module FS(A,B,C,D,Bo);
+  input A,B,C;
+  output D, Bo;
+  wire w1,w2,w3;
+  
+  HS h1(A,B,w1,w2);
+  HS h2(w1,C,D,w3);
+  or(Bo,w2,w3);
+endmodule
+
+
+// test bench
+module TB;
+  reg a, b, c;
+  wire s, cout;
+  
+  // Instantiate the Full Adder module
+  FS uut (a, b, c, s, cout);
+  
+  initial begin
+    // Apply test vectors
+    a = 1'b0; b = 1'b0; c = 1'b0;
+    #100 a = 1'b0; b = 1'b0; c = 1'b1;
+    #100 a = 1'b0; b = 1'b1; c = 1'b0;
+    #100 a = 1'b0; b = 1'b1; c = 1'b1;
+    #100 a = 1'b1; b = 1'b0; c = 1'b0;
+    #100 a = 1'b1; b = 1'b0; c = 1'b1;
+    #100 a = 1'b1; b = 1'b1; c = 1'b0;
+    #100 a = 1'b1; b = 1'b1; c = 1'b1;
+  end
+  
+  initial begin
+    // Monitor the signals
+    $monitor($time, " a = %b b = %b c = %b d = %b bo = %b", a, b, c, s, cout);
+  end
+endmodule
