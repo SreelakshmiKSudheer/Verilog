@@ -1,0 +1,30 @@
+//design
+// Half subtractor module
+module HS(A, B, D, Bo);
+  input A, B;
+  output D, Bo;
+  
+  xor (D, A, B);
+  and (Bo, ~A, B);
+endmodule
+
+
+// test bench
+module TB;
+  reg a,b;
+  wire d,bo;
+  
+  HS uut(a,b,d,bo);
+  
+  initial begin
+    a = 1'b0; b = 1'b0;
+    #100 a = 1'b0; b = 1'b1;
+    #100 a = 1'b1; b = 1'b0;
+    #100 a = 1'b1; b = 1'b1;
+  end
+  
+  initial begin
+    $monitor($time," a = %b b = %b d = %b bo = %b",a,b,d,bo);
+  end
+endmodule
+    
