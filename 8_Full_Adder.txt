@@ -1,0 +1,46 @@
+//design
+// Half Adder module
+module HA(A, B, S, C);
+  input A, B;
+  output S, C;
+  
+  xor (S, A, B);
+  and (C, A, B);
+endmodule
+
+// Full Adder module
+module FA(A, B, Cin, S, Cout);
+  input A, B, Cin;
+  output S, Cout;
+  wire w1, w2, w3;
+  
+  HA h1(A, B, w1, w2);
+  HA h2(w1, Cin, S, w3);
+  or (Cout, w2, w3);
+endmodule
+
+
+module TB;
+  reg a, b, c;
+  wire s, cout;
+  
+  // Instantiate the Full Adder module
+  FA uut (a, b, c, s, cout);
+  
+  initial begin
+    // Apply test vectors
+    a = 1'b0; b = 1'b0; c = 1'b0;
+    #100 a = 1'b0; b = 1'b0; c = 1'b1;
+    #100 a = 1'b0; b = 1'b1; c = 1'b0;
+    #100 a = 1'b0; b = 1'b1; c = 1'b1;
+    #100 a = 1'b1; b = 1'b0; c = 1'b0;
+    #100 a = 1'b1; b = 1'b0; c = 1'b1;
+    #100 a = 1'b1; b = 1'b1; c = 1'b0;
+    #100 a = 1'b1; b = 1'b1; c = 1'b1;
+  end
+  
+  initial begin
+    // Monitor the signals
+    $monitor($time, " a = %b b = %b c = %b s = %b cout = %b", a, b, c, s, cout);
+  end
+endmodule
