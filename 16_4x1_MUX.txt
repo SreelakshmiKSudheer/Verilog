@@ -1,0 +1,44 @@
+module MUX(s0, s1, a, b, c, d, y);
+  input s0, s1;
+  input a, b, c, d;
+  output reg y;
+  
+  always @(a or b or c or d or s0 or s1)
+    begin
+      if(s1 == 0 && s0 == 0)
+        y = a;
+      else if(s1 == 0 && s0 == 1)
+        y = b;
+      else if(s1 == 1 && s0 == 0)
+        y = c;
+      else if(s1 == 1 && s0 == 1)
+        y = d;
+    end
+endmodule
+
+
+
+
+module TB;
+  reg S0,S1,A,B,C,D;
+  wire Y;
+  
+  MUX uut(S0,S1,A,B,C,D,Y);
+  
+  initial begin
+    #0 S1 = 1'b0; S0 = 1'b0; A = 1'b0;
+    #5 S1 = 1'b0; S0 = 1'b0; A = 1'b1;
+    #5 S1 = 1'b0; S0 = 1'b1; B = 1'b0; A = 1'dx;
+    #5 S1 = 1'b0; S0 = 1'b1; B = 1'b1;
+    #5 S1 = 1'b1; S0 = 1'b0; C = 1'b0; B = 1'dx;
+    #5 S1 = 1'b1; S0 = 1'b0; C = 1'b1;
+    #5 S1 = 1'b1; S0 = 1'b1; D = 1'b0; C = 1'dx;
+    #5 S1 = 1'b1; S0 = 1'b1; D = 1'b1;
+  end
+  
+  initial begin
+    $monitor($time," s1 = %b s0 = %b a = %b b = %b c = %b d = %b y = %b ", S1,S0,A,B,C,D,Y);
+  end
+endmodule
+
+  
